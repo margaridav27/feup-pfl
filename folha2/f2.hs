@@ -48,6 +48,38 @@ pascal 0 = [[1]]
 pascal n = pascal (n-1) ++ [[binom n k | k<-[0..n]]]
 
 -- ex10
+-- a)
+and' :: [Bool] -> Bool
+and' [] = True
+and' (x:xs) = x && and' xs
+
+-- b)
+or' :: [Bool] -> Bool
+or' [] = False
+or' (x:xs) = x || or' xs
+
+-- c)
+concat' :: [[a]] -> [a]
+concat' [] = []
+concat' (x:xs) = x ++ concat' xs
+
+concat'' :: [[a]] -> [a]
+concat'' lists = [x | list<-lists, x<-list]
+
+-- d)
+replicate' :: Int -> a -> [a]
+replicate' 0 n = []
+replicate' x n = n : replicate' (x-1) n
+
+replicate'' :: Int -> a -> [a]
+replicate'' x n = [n | i<-[0..x-1]]
+
+-- e)
+(!!) :: [a] -> Int -> [a]
+
+
+-- f)
+elem' :: Eq a => a -> [a] -> Bool
 
 
 -- ex14
@@ -106,3 +138,5 @@ scalePoly s pol = map (*s) pol
 multPoly :: [Int] -> [Int] -> [Int]
 multPoly [] _ = []
 multPoly (x:p1) p2 = addPoly (scalePoly x p2) (0 : multPoly p1 p2)
+
+-- HOMEWORK: 3, 5, 9, 11, 12, 13, 17, 18, 19, 21, 22
