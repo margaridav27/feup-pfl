@@ -43,9 +43,14 @@ factorial n = product [1..n]
 binom :: Integer -> Integer -> Integer
 binom n k = div (factorial n) (factorial k * factorial (n-k)) 
 
+{- 
 pascal :: Integer -> [[Integer]]
 pascal 0 = [[1]]
-pascal n = pascal (n-1) ++ [[binom n k | k<-[0..n]]]
+pascal n = pascal (n-1) ++ [[binom n k | k<-[0..n]]] 
+-}
+
+pascal :: Integer -> [[Integer]]
+pascal x = [[binom n k | k <- [0..n]] | n <- [0..x]]
 
 -- ex10
 -- a)
