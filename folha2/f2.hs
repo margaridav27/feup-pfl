@@ -71,7 +71,11 @@ pascal x = [[binom n k | k <- [0..n]] | n <- [0..x]]
 
 
 --------------------------------------- ex9
-
+-- só funciona com letras maiúsculas
+cifrar :: Int -> String -> String
+cifrar d str = [if letter == ' ' then ' ' 
+                else chr ((mod ((ord letter - ord 'A') + d) 26) + ord 'A') 
+                | letter<-str]
 
 
 --------------------------------------- ex10
