@@ -91,15 +91,11 @@ despalavras' xs = concat (intersperse " " xs)
 
 --------------------------------------- ex11
 calcPi1, calcPi2 :: Int -> Double
-calcPi1 n = 4 * sum (take n [(-1)^i/(fromIntegral x) | i<-[0,1..], x<-[1,3..]]) 
-calcPi2 n = 3 + 4 * sum (take n [(-1)^(2*i)/fromIntegral (x*(x+1)*(x+2)) | i<-[0,1..], x<-[2,4..]])
-
-calcPi1', calcPi2' :: Int -> Double
-calcPi1' n = sum parcelas
+calcPi1 n = sum parcelas
     where num = map (*4) [(-1)^i | i<-[0..]]
           denom = [1,3..]
           parcelas = take n (zipWith (/) num denom)
-calcPi2' n = 3 + sum parcelas
+calcPi2 n = 3 + sum parcelas
     where num = map (*4) [(-1)^i | i<-[0..]]
           denom = zipWith (*) (zipWith (*) [2,4..] [3,5..]) [4,6..]
           parcelas = take n (zipWith (/) num denom)
