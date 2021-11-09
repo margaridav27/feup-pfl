@@ -1,20 +1,23 @@
 -- TODO: 1, 3, 4, 6, 7, 8, 9, 12, 14, 15, 16
 
--- ex1
+--------------------------------------- ex1
 testaTriangulo :: Float -> Float -> Float -> Bool
 testaTriangulo a b c = a < b+c && b < a+c && c < a+b
 
--- ex2
+
+--------------------------------------- ex2
 areaTriangulo :: Float -> Float -> Float -> Float
 areaTriangulo a b c = sqrt(s*(s-a)*(s-b)*(s-c))
     where s = (a+b+c)/2
 
--- ex3
+
+--------------------------------------- ex3
 metades :: [a] -> ([a],[a])
 metades lst = (take half lst, drop half lst)
     where half = div (length lst) 2
 
--- ex4
+
+--------------------------------------- ex4
 lastv1 :: [a] -> a
 lastv1 lst = head (reverse lst)
 
@@ -27,14 +30,16 @@ initv1 lst = reverse (tail (reverse lst))
 initv2 :: [a] -> [a]
 initv2 lst = reverse (drop 1 (reverse lst))
 
--- ex6
+
+--------------------------------------- ex6
 raizes :: Float -> Float -> Float -> (Float, Float)
 raizes a b c = (x1, x2)
     where bin = b**2-4*a*c
           x1 = (-b+sqrt(bin))/(2*a)
           x2 = (-b-sqrt(bin))/(2*a)
 
--- ex7
+
+--------------------------------------- ex7
     -- a) [Char]
     -- b) (Char)
     -- c) [(Bool, Char)]
@@ -42,7 +47,8 @@ raizes a b c = (x1, x2)
     -- e) [[a] -> [a]]
     -- f) [Bool -> Bool] 
 
--- ex8
+
+--------------------------------------- ex8
     -- a) [a] -> a
     -- b) (a,b) -> (b,a)
     -- c) a -> b -> (a,b)
@@ -53,7 +59,8 @@ raizes a b c = (x1, x2)
     -- h) Eq a => [a] -> Bool
     -- i) (a -> a) -> a -> a
 
--- ex9
+
+--------------------------------------- ex9
 {- 
 classifica :: Int -> String
 classifica grade = msg 
@@ -73,7 +80,8 @@ classifica grade | grade >= 0 && grade <= 9 = "reprovado"
                  | grade == 19 || grade == 20 = "excelente"
                  | otherwise = "erro"
 
--- ex12
+
+--------------------------------------- ex12
 -- definição de xor
 xorv1 :: Bool -> Bool -> Bool
 xorv1 a b = (a || b) && (not a || not b) 
@@ -83,7 +91,8 @@ xorv2 :: Bool -> Bool -> Bool
 xorv2 a b | a == b = False
           | otherwise = True
 
--- ex14
+
+--------------------------------------- ex14
 -- usando o prelúdio padrão
 curtav1 :: [a] -> Bool
 curtav1 lst = length lst >= 0 && length lst <= 2
@@ -93,7 +102,8 @@ curtav2 :: [a] -> Bool
 curtav2 lst | length lst == 0 || length lst == 1 || length lst == 2 = True
             | otherwise = False
 
--- ex15
+
+--------------------------------------- ex15
 quicksort :: Ord a => [a] -> [a]
 quicksort [] = []
 quicksort (x:xs) = quicksort menores ++ [x] ++ quicksort maiores
@@ -103,7 +113,8 @@ quicksort (x:xs) = quicksort menores ++ [x] ++ quicksort maiores
 mediana :: Ord a => a -> a -> a -> a
 mediana x y z = (quicksort [x,y,z]) !! 1
 
--- ex16
+
+--------------------------------------- ex16
 unit :: Int -> String
 unit 1 = "um"
 unit 2 = "dois"
