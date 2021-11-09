@@ -67,11 +67,21 @@ elemany e l = any (\elem -> elem==e) l
 
 
 --------------------------------------- ex8
+-- a)
 palavras :: String -> [String]
 palavras [] = []
 palavras str = [before_space] ++ palavras after_space
     where before_space = takeWhile (\c -> not (isSpace c)) str
-          after_space = dropWhile (\c -> isSpace c) before_space
+          remaining = dropWhile (\c -> not (isSpace c)) str
+          after_space = dropWhile (\c -> isSpace c) remaining
+
+-- b)
+despalavras :: [String] -> String
+despalavras xs = foldr (\a b-> a ++ if b=="" then b else " " ++ b) "" xs
+
+despalavras' :: [String] -> String
+despalavras' xs = concat (intersperse " " xs)
+
 
 --------------------------------------- ex9
 
@@ -80,10 +90,38 @@ palavras str = [before_space] ++ palavras after_space
 
 
 --------------------------------------- ex11
+calcPi1, calcPi2 :: Int -> Double
+calcPi1 n = 4 * sum (take n [(-1)^i/(fromIntegral x) | i<-[0,1..], x<-[1,3..]]) 
+calcPi2 n = 3 + 4 * sum (take n [(-1)^(2*i)/fromIntegral (x*(x+1)*(x+2)) | i<-[0,1..], x<-[2,4..]])
+
+calcPi1', calcPi2' :: Int -> Double
+calcPi1' n = sum parcelas
+    where num = map (*4) [(-1)^i | i<-[0..]]
+          denom = [1,3..]
+          parcelas = take n (zipWith (/) num denom)
+calcPi2' n = 3 + sum parcelas
+    where num = map (*4) [(-1)^i | i<-[0..]]
+          denom = zipWith (*) (zipWith (*) [2,4..] [3,5..]) [4,6..]
+          parcelas = take n (zipWith (/) num denom)
+
+
+--------------------------------------- ex12
+
+
+--------------------------------------- ex13
 
 
 --------------------------------------- ex14
 
 
+
 --------------------------------------- ex15
+factorial :: Integer -> Integer
+factorial n = product [1..n]
+
+binom :: Integer -> Integer -> Integer
+binom n k = div (factorial n) (factorial k * factorial (n-k)) 
+
+pascal :: Integer -> [[Integer]]
+pascal x = [[binom n k | k <- [0..n]] | n <- [0..x]]
 
