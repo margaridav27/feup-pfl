@@ -72,8 +72,7 @@ palavras :: String -> [String]
 palavras [] = []
 palavras str = [before_space] ++ palavras after_space
     where before_space = takeWhile (\c -> not (isSpace c)) str
-          remaining = dropWhile (\c -> not (isSpace c)) str
-          after_space = dropWhile (\c -> isSpace c) remaining
+          after_space = dropWhile (\c -> isSpace c) (dropWhile (\c -> not (isSpace c)) str)
 
 -- b)
 despalavras :: [String] -> String
@@ -108,8 +107,22 @@ calcPi2 n = 3 + sum parcelas
 
 
 --------------------------------------- ex14
+constructMatch :: String -> String -> [(Char, Char)]
+constructMatch [] _ = []
+constructMatch sentence key = zip word (take (length word) key_rep) ++ 
+                              [(' ',' ')] ++ 
+                              constructMatch remaining (drop (length word) key_rep)
+    where key_rep = take (length (concat (palavras sentence))) (cycle key) 
+          word = takeWhile (\c -> not (isSpace c)) sentence
+          remaining = dropWhile (\c -> isSpace c) (dropWhile (\c -> not (isSpace c)) sentence)
 
-
+cifrar :: Int -> Char -> Char
+cifrar d c = if isSpace c then ' ' 
+             else chr ((mod ((ord c - ord 'A') + d) 26) + ord 'A') 
+               
+cifraChave :: String -> String -> String
+cifraChave sentence key = [cifrar (ord d - ord 'A') c | (c,d)<-(constructMatch sentence key)] 
+   
 
 --------------------------------------- ex15
 factorial :: Integer -> Integer
@@ -120,4 +133,3 @@ binom n k = div (factorial n) (factorial k * factorial (n-k))
 
 pascal :: Integer -> [[Integer]]
 pascal x = [[binom n k | k <- [0..n]] | n <- [0..x]]
-
