@@ -1,11 +1,11 @@
 import Data.List
 import Data.Char
 
--- TODO: 1, 2, 4, 7, 8, 11, 14, 15
+-- TODO: 1, 2, 4, 7, 8
 
 --------------------------------------- ex2
 dec2Int :: [Int] -> Int
-dec2Int lst = foldl (+) 0 l 
+dec2Int lst = foldl (+) 0 l
     where l = map (\(x,i) -> x*10^i) (zip lst (reverse [0..(length lst - 1)]))
 
 dec2int' :: [Int] -> Int
@@ -36,12 +36,9 @@ maximum'' lst = foldl1 max lst
 minimum'' lst = foldl1 min lst
 
 -- b)
-{- foldr1', foldl1' :: Foldable t => (a -> a -> a) -> t a -> a
-foldr1' f l = foldr f (last l) (init l) 
-foldl1' f l = foldl f (head l) (tail l)  -}
-
-
---------------------------------------- ex6
+foldr1', foldl1' :: (a -> a -> a) -> t a -> a
+foldr1' f l = foldr f (last l) (init l)
+foldl1' f l = foldl f (head l) (tail l)
 
 
 --------------------------------------- ex7
@@ -51,7 +48,7 @@ maismaisfoldr l1 l2 = foldr (:) l2 l1
 
 -- b)
 concatfoldr :: [[a]] -> [a]
-concatfoldr l = foldr (++) [] l 
+concatfoldr l = foldr (++) [] l
 
 -- c)
 reversefoldr :: [a] -> [a]
@@ -80,56 +77,3 @@ despalavras xs = foldr (\a b-> a ++ if b=="" then b else " " ++ b) "" xs
 
 despalavras' :: [String] -> String
 despalavras' xs = concat (intersperse " " xs)
-
-
---------------------------------------- ex9
-
-
---------------------------------------- ex10
-
-
---------------------------------------- ex11
-calcPi1, calcPi2 :: Int -> Double
-calcPi1 n = sum parcelas
-    where num = map (*4) [(-1)^i | i<-[0..]]
-          denom = [1,3..]
-          parcelas = take n (zipWith (/) num denom)
-calcPi2 n = 3 + sum parcelas
-    where num = map (*4) [(-1)^i | i<-[0..]]
-          denom = zipWith (*) (zipWith (*) [2,4..] [3,5..]) [4,6..]
-          parcelas = take n (zipWith (/) num denom)
-
-
---------------------------------------- ex12
-
-
---------------------------------------- ex13
-
-
---------------------------------------- ex14
-constructMatch :: String -> String -> [(Char, Char)]
-constructMatch [] _ = []
-constructMatch sentence key = zip word (take (length word) key_rep) ++ 
-                              [(' ',' ')] ++ 
-                              constructMatch remaining (drop (length word) key_rep)
-    where key_rep = take (length (concat (palavras sentence))) (cycle key) 
-          word = takeWhile (\c -> not (isSpace c)) sentence
-          remaining = dropWhile (\c -> isSpace c) (dropWhile (\c -> not (isSpace c)) sentence)
-
-cifrar :: Int -> Char -> Char
-cifrar d c = if isSpace c then ' ' 
-             else chr ((mod ((ord c - ord 'A') + d) 26) + ord 'A') 
-               
-cifraChave :: String -> String -> String
-cifraChave sentence key = [cifrar (ord d - ord 'A') c | (c,d)<-(constructMatch sentence key)] 
-   
-
---------------------------------------- ex15
-factorial :: Integer -> Integer
-factorial n = product [1..n]
-
-binom :: Integer -> Integer -> Integer
-binom n k = div (factorial n) (factorial k * factorial (n-k)) 
-
-pascal :: Integer -> [[Integer]]
-pascal x = [[binom n k | k <- [0..n]] | n <- [0..x]]
