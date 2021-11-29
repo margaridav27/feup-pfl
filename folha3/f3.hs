@@ -36,10 +36,15 @@ maximum'' lst = foldl1 max lst
 minimum'' lst = foldl1 min lst
 
 -- b)
+{-
 foldr1', foldl1' :: (a -> a -> a) -> t a -> a
 foldr1' f l = foldr f (last l) (init l)
 foldl1' f l = foldl f (head l) (tail l)
+-}
 
+--------------------------------------- ex6
+mdc :: Integer -> Integer -> Integer
+mdc a b = fst (until (\(a,b) -> b == 0) (\(a,b) -> (b, mod a b)) (a,b))
 
 --------------------------------------- ex7
 -- a)
@@ -77,3 +82,11 @@ despalavras xs = foldr (\a b-> a ++ if b=="" then b else " " ++ b) "" xs
 
 despalavras' :: [String] -> String
 despalavras' xs = concat (intersperse " " xs)
+
+
+--------------------------------------- ex9
+{-
+scanl' :: (b -> a -> b) -> b -> [a] -> [b]
+scanl' f z [] = [z]
+scanl' f z (x:xs) = z : scanl' f (f z x) xs
+-}
