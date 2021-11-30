@@ -60,3 +60,26 @@ isVowel c = c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
 
 countVowels :: [Char] -> Int
 countVowels str = length (filter (isVowel) str)
+
+-- ho-32
+myMapFold :: (a -> b) -> [a] -> [b]
+myMapFold f l = foldr (\x xs -> (f x):xs) [] l
+
+-- ho-33
+largePairs :: Int -> [(Int,Int)] -> [(Int,Int)]
+largePairs m l = foldr (\(a,b) ls -> if (b+a >= m) then (a,b):ls else ls) [] l
+
+-- ho-35
+separateSingleDigits :: [Int] -> ([Int],[Int])
+separateSingleDigits l = foldr (\a (l1,l2) -> if (a >= 0 && a < 10) then (a:l1,l2) else (l1,a:l2)) ([],[]) l
+
+-- ho-40
+-- a)
+myScanrRec :: (a -> b -> b) -> b -> [a] -> [b]
+myScanrRec _ z [] = [z]
+myScanrRec f z (x:xs) = (f x (head t)):t
+  where t = myScanrRec f z xs
+
+-- b)
+myScanrFold :: (a -> b -> b) -> b -> [a] -> [b]
+myScanrFold f z l = foldr (\x (h:t) -> (f x h):h:t) [z] l
