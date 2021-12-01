@@ -4,19 +4,24 @@ import Data.Char
 -- TODO: 1, 2, 4, 7, 8
 
 --------------------------------------- ex2
+{-
 dec2Int :: [Int] -> Int
-dec2Int lst = foldl (+) 0 l
-    where l = map (\(x,i) -> x*10^i) (zip lst (reverse [0..(length lst - 1)]))
+dec2Int [] = 0
+dec2Int (x:xs) = (x*10) + (dec2Int xs)
 
-dec2int' :: [Int] -> Int
-dec2int' (x:xs) = foldl (\x y -> 10*x + y) x xs
+dec2Int :: [Int] -> Int
+dec2Int l = foldl (\x y -> 10*x + y) 0 l
+-}
+
+dec2Int :: [Int] -> Int
+dec2Int l = foldl ((+).(*10)) 0 l
 
 
 --------------------------------------- ex3
 zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
-zipWith' f [] [] = []
-zipWith' f (x:xs) [] = []
-zipWith' f [] (y:ys) = []
+zipWith' _ [] [] = []
+zipWith' _ _ [] = []
+zipWith' _ [] _ = []
 zipWith' f (x:xs) (y:ys) = (f x y) : (zipWith' f xs ys)
 
 
@@ -61,7 +66,7 @@ reversefoldr xs = foldr (\x xs -> xs++[x]) [] xs
 
 -- d)
 reversefoldl :: [a] -> [a]
-reversefoldl xs = foldl (\xs x -> [x]++xs) [] xs
+reversefoldl xs = foldl (\x xs -> [x]++xs) [] xs
 
 -- e)
 elemany :: Eq a => a -> [a] -> Bool
