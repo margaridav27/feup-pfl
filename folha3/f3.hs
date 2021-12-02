@@ -66,7 +66,7 @@ reversefoldr xs = foldr (\x xs -> xs++[x]) [] xs
 
 -- d)
 reversefoldl :: [a] -> [a]
-reversefoldl xs = foldl (\x xs -> [x]++xs) [] xs
+reversefoldl xs = foldl (\xs x -> [x]++xs) [] xs
 
 -- e)
 elemany :: Eq a => a -> [a] -> Bool
@@ -77,9 +77,8 @@ elemany e l = any (\elem -> elem==e) l
 -- a)
 palavras :: String -> [String]
 palavras [] = []
-palavras str = [before_space] ++ palavras after_space
-    where before_space = takeWhile (\c -> not (isSpace c)) str
-          after_space = dropWhile (\c -> isSpace c) (dropWhile (\c -> not (isSpace c)) str)
+palavras str = takeWhile (not.isSpace) str_ : palavras (dropWhile isSpace (dropWhile (not.isSpace) str_))
+  where str_ = dropWhile isSpace str
 
 -- b)
 despalavras :: [String] -> String
