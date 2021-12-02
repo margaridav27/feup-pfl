@@ -71,8 +71,9 @@ reversefoldl' = foldl (flip (:)) []
 elemany :: Eq a => a -> [a] -> Bool
 elemany e l = any (\elem -> elem==e) l
 
+-- point free alternative
 elemany' :: Eq a => a -> [a] -> Bool
-elemany' e = any (==e) 
+elemany' = any . (==)
 
 
 --------------------------------------- ex8
