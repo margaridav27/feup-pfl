@@ -26,7 +26,7 @@ zipWith' f (x:xs) (y:ys) = (f x y) : (zipWith' f xs ys)
 
 --------------------------------------- ex4
 isort :: Ord a => [a] -> [a]
-isort (x:xs) = foldr insert [x] xs
+isort = foldr insert []
 
 
 --------------------------------------- ex5
