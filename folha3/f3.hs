@@ -32,12 +32,8 @@ isort = foldr insert []
 --------------------------------------- ex5
 -- a)
 maximum', minimum' :: Ord a => [a] -> a
-maximum' lst = foldr1 max lst
-minimum' lst = foldr1 min lst
-
-maximum'', minimum'' :: Ord a => [a] -> a
-maximum'' lst = foldl1 max lst
-minimum'' lst = foldl1 min lst
+maximum' = foldr1 max
+minimum' = foldr1 min
 
 -- b)
 {-
