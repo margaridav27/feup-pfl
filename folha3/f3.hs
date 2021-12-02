@@ -53,19 +53,26 @@ maismaisfoldr l1 l2 = foldr (:) l2 l1
 
 -- b)
 concatfoldr :: [[a]] -> [a]
-concatfoldr l = foldr (++) [] l
+concatfoldr = foldr (++) []
 
 -- c)
 reversefoldr :: [a] -> [a]
-reversefoldr xs = foldr (\x xs -> xs++[x]) [] xs
+reversefoldr l = foldr (\h t -> t++[h]) [] l
 
 -- d)
 reversefoldl :: [a] -> [a]
-reversefoldl xs = foldl (\xs x -> [x]++xs) [] xs
+reversefoldl l = foldl (\t h -> h:t) [] l
+
+-- point-free alternative
+reversefoldl' :: [a] -> [a]
+reversefoldl' = foldl (flip (:)) []
 
 -- e)
 elemany :: Eq a => a -> [a] -> Bool
 elemany e l = any (\elem -> elem==e) l
+
+elemany' :: Eq a => a -> [a] -> Bool
+elemany' e = any (==e) 
 
 
 --------------------------------------- ex8
