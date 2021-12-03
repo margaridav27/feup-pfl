@@ -5,23 +5,33 @@ import Data.Char
 -- DUVIDAS: 6
 
 --------------------------------------- ex2
-calcPi1 :: Int -> Double
-calcPi1 n = sum parcelas
+calcPi1, calcPi2 :: Int -> Double
+
+{-calcPi1 n = sum parcelas
   where num = map (*4) [(-1)^i | i<-[0..]]
         denom = [1,3..]
-        parcelas = take n (zipWith (/) num denom)
+        parcelas = take n (zipWith (/) num denom)-}
 
-calcPi2 :: Int -> Double
-calcPi2 n = 3 + sum parcelas
+{-calcPi2 n = 3 + sum parcelas
   where num = map (*4) [(-1)^i | i<-[0..]]
         denom = zipWith (*) (zipWith (*) [2,4..] [3,5..]) [4,6..]
-        parcelas = take n (zipWith (/) num denom)
+        parcelas = take n (zipWith (/) num denom)-}
 
+calcPi1 n = sum (take n (zipWith (/) (cycle [4,-4]) [1,3..]))
+
+calcPi2 n = 3 + sum (take n (zipWith f (cycle [4,-4]) [1,3..]))
+  where f = (\x y -> x / product [y,y+1,y+2])
 
 --------------------------------------- ex3
-intercalar :: a -> [a] -> [[a]]
-intercalar e lst = (e:lst) : [take i lst ++ [e] ++ drop i lst | i<-[1..length lst]]
+{-intercalar :: a -> [a] -> [[a]]
+intercalar e lst = [take i lst ++ [e] ++ drop i lst | i<-[0..length lst]]-}
 
+-- usign let inside list comprehension
+intercalar :: a -> [a] -> [[a]]
+intercalar e lst = [ left ++ [e] ++ right |
+    i<-[0..length lst],
+    let left = take i lst,
+    let right = drop i lst]
 
 --------------------------------------- ex4
 -- returns the list with non repeated elements
@@ -35,7 +45,6 @@ perms [x] = [[x]]
 perms lst = uniques (concat [intercalar (lst !! i) lst_ |
   i <- [0..length lst - 1],
   lst_ <- perms (take i lst ++ drop (i+1) lst)])
-
 
 --------------------------------------- ex5
 palavras :: String -> [String]
