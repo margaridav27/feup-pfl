@@ -22,6 +22,7 @@ calcPi1 n = sum (take n (zipWith (/) (cycle [4,-4]) [1,3..]))
 calcPi2 n = 3 + sum (take n (zipWith f (cycle [4,-4]) [1,3..]))
   where f = (\x y -> x / product [y,y+1,y+2])
 
+
 --------------------------------------- ex3
 {-intercalar :: a -> [a] -> [[a]]
 intercalar e lst = [take i lst ++ [e] ++ drop i lst | i<-[0..length lst]]-}
@@ -33,6 +34,7 @@ intercalar e lst = [ left ++ [e] ++ right |
     let left = take i lst,
     let right = drop i lst]
 
+
 --------------------------------------- ex4
 -- returns the list with non repeated elements
 uniques :: (Eq a) => [[a]] -> [[a]]
@@ -40,34 +42,40 @@ uniques [] = []
 uniques (x:xs) | elem x xs = uniques xs
                | otherwise = x : uniques xs
 
+{-
 perms :: (Eq a) => [a] -> [[a]]
 perms [x] = [[x]]
 perms lst = uniques (concat [intercalar (lst !! i) lst_ |
   i <- [0..length lst - 1],
   lst_ <- perms (take i lst ++ drop (i+1) lst)])
+-}
+
+perms :: [a] -> [[a]]
+perms [] = [[]]
+perms (x:xs) = concat [intercalar x y | y<-perms xs]
+
 
 --------------------------------------- ex5
 palavras :: String -> [String]
 palavras [] = []
-palavras str = [before_space] ++ palavras after_space
-  where before_space = takeWhile (\c -> not (isSpace c)) str
-        after_space = dropWhile (\c -> isSpace c) (dropWhile (\c -> not (isSpace c)) str)
+palavras str = takeWhile (not.isSpace) str_ : palavras (dropWhile isSpace (dropWhile (not.isSpace) str_))
+  where str_ = dropWhile isSpace str
 
-constructMatch :: String -> String -> [(Char, Char)]
-constructMatch [] _ = []
-constructMatch sentence key = zip word (take (length word) key_rep) ++
-                              [(' ',' ')] ++
-                              constructMatch remaining (drop (length word) key_rep)
+match :: String -> String -> [(Char, Char)]
+match [] _ = []
+match sentence key = zip word (take lword key_rep) ++ [(' ',' ')] ++
+                     match remaining (drop lword key_rep)
   where key_rep = take (length (concat (palavras sentence))) (cycle key)
-        word = takeWhile (\c -> not (isSpace c)) sentence
-        remaining = dropWhile (\c -> isSpace c) (dropWhile (\c -> not (isSpace c)) sentence)
+        word = takeWhile (not.isSpace) sentence
+        lword = length word
+        remaining = dropWhile (isSpace) (dropWhile (not.isSpace) sentence)
 
 cifrar :: Int -> Char -> Char
 cifrar d c = if isSpace c then ' '
              else chr ((mod ((ord c - ord 'A') + d) 26) + ord 'A')
 
 cifraChave :: String -> String -> String
-cifraChave sentence key = [cifrar (ord d - ord 'A') c | (c,d)<-(constructMatch sentence key)]
+cifraChave sentence key = [cifrar (ord d - ord 'A') c | (c,d)<-(match sentence key)]
 
 
 --------------------------------------- ex6

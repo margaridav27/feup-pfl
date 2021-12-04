@@ -195,6 +195,20 @@ partes x = map sort (partesAux x [1..x] [])
 
 -- TESTE 2018
 
+-- ex1
+-- a) [[1,2,3],[4],[5]]
+-- b) 5
+-- c) [8,6,4,2,0]
+-- d) 9
+-- e) [(1,1),(2,1),(3,1),(4,1),(2,2),(3,2),(4,2)]
+-- f) [2,4,9,16,25]
+-- g) [2^i-1 | i<-[1..10]]
+-- h) 1+2+3+4+5=15
+-- i) ([Bool],[Char])
+-- j) a -> b -> (a,b)
+-- k) [a] -> [a] -> [a]
+-- l) Eq a => [a] -> Bool
+
 -- ex6
 decomporAux :: Int -> [Int] -> [Int] -> [[Int]]
 decomporAux _ [] _ = []
@@ -242,7 +256,25 @@ partir :: Eq a => a -> [a] -> ([a],[a])
 partir x xs = ((takeWhile (/=x) xs),(dropWhile (/=x) xs))
 
 -- ex6
+{-
 parts:: [a] -> [[[a]]]
 parts [] = [[]]
 parts (x:xs) = [[x]:ps | ps <- pss] ++ [(x:p):ps | (p:ps) <- pss]
   where pss = parts xs
+-}
+
+parts:: [a] -> [[[a]]]
+parts [] = [[]]
+parts xs = [ (take n xs):ps | n <- [1..length xs], ps <- parts (drop n xs)]
+
+-- TESTE 2021
+
+-- ex1
+-- a) [4,3,2,1]
+-- b) [4,7,10]
+-- c) [(1,3),(2,2)]
+-- d) (3,'c')
+-- e) 2
+-- f) [(Int,[Int])]
+-- g) (a -> Bool) -> [a] -> [a]
+-- h) (a -> Bool) -> [a] -> [a]
