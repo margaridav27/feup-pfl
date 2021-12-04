@@ -149,6 +149,23 @@ mult a b = itera a (+b) 0
 
 -- TESTE 2017
 
+-- ex1
+-- a) [1,5,4,3]
+-- b) [5,6,9]
+-- c) 2
+-- d) [15..30]
+-- e) 4
+-- f) [1,2,3,4,6,9]
+-- g) [1,2,3]
+-- h) [x | x <- concat (transpose [[0,2..10], (map (*(-1)) [1,3..9])])]
+      -- ou concat (transpose [[0,2..10], (map (*(-1)) [1,3..9])])
+      -- ou [if (mod x 2 == 0) then x else -x | x <- [0..10]]
+-- i) 8
+-- j) ([Char],[Float])
+-- k) (a,b) -> a
+-- l) (Ord a, Eq a) => a -> a -> a -> Bool
+-- m) [a] -> [a]
+
 -- ex7
 {-
 crescente :: [Int] -> Bool
@@ -190,6 +207,20 @@ decompor :: Int -> [Int] -> [[Int]]
 decompor amount lst = decomporAux amount lst []
 
 -- TESTE 2019
+
+-- ex1
+-- a) [[1,2],[],[3,4],[5]]
+-- b) [5]
+-- c) 2
+-- d) [16..32]
+-- e) [(3,2),(4,3),(5,4),(5,6),(6,8),(7,12)]
+-- f) [[2,8],[4,6],[]]
+-- g) [(i,j) | (i,j) <- zip [0..6] [6,5..]]
+-- h) 1*3 + 3*1 + 1*5 + 5*0 + 0*4 + 4 = 15
+-- i) [(Char,String)]
+-- j) (Num a, Ord a) => a -> [a] -> Bool
+-- k) Eq a => [a] -> Bool
+-- l) Eq a => (a -> a) -> a -> Bool
 
 -- ex3
 -- a)
