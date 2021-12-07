@@ -1,3 +1,8 @@
+aluno(X,Y) :- frequenta(X,_C), leciona(Y,_C)
+professor(X,Y) :- leciona(X,_C), frequenta(Y,_C)
+% professor(X,Y) :- aluno(Y,X) ??
+aluno(A,X,Y) :- aluno(A,X), aluno(A,Y)
+colega(X,Y) :- (professor(X), professor(Y)) ; (frequenta(X,_C),frequenta(Y,_C))
 
 
 uc(algoritmos)
