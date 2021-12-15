@@ -1,19 +1,46 @@
-father(X,Y) :- parent(X,Y), male(X).
-mother(X,Y) :- parent(X,Y), female(X).
-child(X,Y) :- parent(Y,X).
-grandparent(X,Y) :- parent(X,_Z), parent(_Z,Y). 
+father(X,Y) :- 
+    parent(X,Y), 
+    male(X).
+mother(X,Y) :- 
+    parent(X,Y), 
+    female(X).
+child(X,Y) :- 
+    parent(Y,X).
+grandparent(X,Y) :- 
+    parent(X,_Z), 
+    parent(_Z,Y). 
 % X é meu avô se X for pai do meu pai ou da minha mãe
-grandfather(X,Y) :- father(X,_Z), parent(_Z,Y). 
+grandfather(X,Y) :- 
+    father(X,_Z), 
+    parent(_Z,Y). 
 % X é minha avó se X for mãe do meu pai ou da minha mãe
-grandmother(X,Y) :- mother(X,_Z), parent(_Z,Y). 
+grandmother(X,Y) :- 
+    mother(X,_Z), 
+    parent(_Z,Y). 
 % X e Y são irmãos se tiverem os mesmos progenitores
-sibling(X,Y) :- parent(A,X), parent(B,Y), parent(A,X), parent(B,Y), A\==B. 
+sibling(X,Y) :- 
+    parent(A,X), 
+    parent(B,Y), 
+    parent(A,X), 
+    parent(B,Y), 
+    A\==B. 
 % X e Y são meios irmãos se tiverem um e um só progenitor em comum
-halfsibling(X,Y) :- parent(A,X), parent(B,X), parent(B,Y), parent(C,Y), A\==B, A\==C, B\==C.
+halfsibling(X,Y) :- 
+    parent(A,X), 
+    parent(B,X), 
+    parent(B,Y), 
+    parent(C,Y), 
+    A\==B, 
+    A\==C, 
+    B\==C.
 % X é meu tio se for irmão de um dos meus progenitores
-uncle(X,Y) :- sibling(X,_Z), parent(_Z,Y).
+uncle(X,Y) :- 
+    sibling(X,_Z), 
+    parent(_Z,Y).
 % X é meu primo se for filho de um tio meu
-cousin(X,Y) :- child(Y,_Z), uncle(_Z,X).
+cousin(X,Y) :- 
+    child(Y,_Z), 
+    uncle(_Z,X).
 
 female(grace).
 female(dede).
