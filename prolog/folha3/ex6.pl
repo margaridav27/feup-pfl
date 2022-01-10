@@ -1,14 +1,4 @@
-aluno(X,Y) :- frequenta(X,_C), leciona(Y,_C).
-professor(X,Y) :- leciona(X,_C), frequenta(Y,_C).
-% professor(X,Y) :- aluno(Y,X). ??
-aluno(A,X,Y) :- aluno(A,X), aluno(A,Y).
-colega(X,Y) :- (professor(X), professor(Y)) ; (frequenta(X,_C),frequenta(Y,_C)).
-
-uc(algoritmos).
-uc('base de dados').
-uc(compiladores).
-uc(estatistica).
-uc(redes).
+% 6. a, b, e, g
 
 professor(adalberto).
 professor(bernardete).
@@ -66,6 +56,28 @@ frequenta(eva,estatistica).
 frequenta(alvaro,redes).
 frequenta(beatriz,redes).
 
+% a
+teachers(T):-
+  findall(Teacher, professor(Teacher), T).
 
+% e
+common_course(S1, S2, UC):-
+  frequenta(S1, UC),
+  frequenta(S2, UC),
+  S1 \= S2.
+  
+common_courses(S1, S2, C) :- 
+  setof(UC, common_course(S1, S2, UC), C), !.
 
+common_courses(S1, S2, []).
 
+% g
+strangers_(S1, S2):- 
+  aluno(S1), 
+  aluno(S2), 
+  S1 \= S2,
+  common_courses(S1, S2, C),
+  length(C, 0).
+
+strangers(L):-
+  findall(S1-S2, strangers_(S1, S2), L).
