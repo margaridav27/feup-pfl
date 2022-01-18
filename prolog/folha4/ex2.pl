@@ -21,3 +21,23 @@ get_all_nodes(Flights):-
   setof(Airport, (D, Co, C, H, D)^(flight(Airport, A, Co, C, H, D);
                                    flight(D, Airport, Co, C, H, D)) , Flights).
 
+% c
+find_flights(Origin, Destination, Flights):-
+    dfs(Origin, Destination, [], [], Flights).
+
+dfs(Origin, Origin, Flights, Codes, Codes).
+
+dfs(Origin, Destination, Flights, Codes, [Code | Codes]):-
+    flight(Origin, Destination, _, Code, _, _).
+
+dfs(Origin, Destination, Flights, Codes, Res):-
+    flight(Origin, Dest, _, Code, _, _),
+    \+member(Dest, Flights),
+    dfs(Dest, Destination, [Dest|Flights], [Code|Codes], Res)
+
+% d 
+% find_flights_breadth(Origin, Destination, Flights):-
+
+
+% h
+% find_circular_trip(MaxSize, Origin, Cycle):-
