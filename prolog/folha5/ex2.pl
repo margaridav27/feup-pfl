@@ -27,3 +27,6 @@ univ(Term, [Name|Args]):-
   findall(Arg, (between(1, Arity, Index), 
                 arg(Index, Term, Arg)), Args).
 
+% c
+:- op(700, xfx, univ).
+

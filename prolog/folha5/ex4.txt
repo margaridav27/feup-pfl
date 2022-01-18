@@ -1,0 +1,46 @@
+:-op(550, xfx, de). 
+:-op(500, fx, aula). 
+:-op(550, xfy, pelas). 
+:-op(550, xfx, e). 
+:-op(600, xfx, as).
+
+--------------------------------------------------------------
+
+a) aula t de pfl as segundas pelas 11 
+
+ops - aula, de, as, pelas
+sorted ops - as, de | pelas, aula
+
+            as
+       /         \
+      de        pelas
+     /  \    /         \
+   aula pfl segundas   11
+    |
+    t
+
+--------------------------------------------------------------
+
+b) aula tp de pfl as tercas pelas 10 e 30 
+
+ops - aula, de, as, pelas, e
+sorted ops - as, de | pelas | e, aula
+
+            as
+       /         \
+      de        pelas
+     /  \    /         \
+   aula pfl terças     e
+    |                 / \
+    tp               10 30
+
+--------------------------------------------------------------
+
+c) aula 11 e aula 12 as 4 pelas 5 pelas 6 pelas 7
+
+ops - aula, e, as, pelas
+sorted ops - as, e | pelas, aula
+
+** pedir ao tigas ou ao joni **
+
+--------------------------------------------------------------
