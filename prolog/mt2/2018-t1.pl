@@ -104,14 +104,17 @@ tripDays([From,To|Rest],AccTime,Time,AccFlights,Flights,AccDays,Days):-
   airport(_,CodeTo,From),
   airport(_,CodeFrom,To),
   flight(Flight,CodeTo,CodeFrom,Departure,_,_),
+
   % calculate arrival on that country and check if it translates into an additional day
   arrival(Flight,Arrival),
   dayIncrement(AccTime,Arrival,I1),
   AccDays1 is AccDays + I1,
+
   % calculate time after visit that country and check if it translates into an additional day
   timeAfterTrip(Arrival,AccTime1),
   dayIncrement(Arrival,AccTime1,I2),
   AccDays2 is AccDays1 + I2,
+  
   % continue for the rest of the trip
   tripDays([To|Rest],AccTime1,Time,[Departure|AccFlights],Flights,AccDays2,Days).
 
@@ -124,4 +127,3 @@ avgFlightDurationFromAirport(Airport,Avg):-
 
 % 8
 mostInternation(ListOfCompanies):-
-  
