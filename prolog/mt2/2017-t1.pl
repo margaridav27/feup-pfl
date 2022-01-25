@@ -103,30 +103,41 @@ getPlayersNames([],[]).
 getPlayersNames([Name-_|Rest],[Name|Players]):-
   getPlayersNames(Rest,Players).
 
-mostEffectivePlayers(Game,Players):-
-  mostEffectivePlayers(Game,0,[],List),
+mostEfficientPlayer(Game,Players):-
+  mostEfficientPlayer(Game,0,[],List), 
   getPlayersNames(List,Players).
 
-mostEffectivePlayers(Game,MaxEfficiency,AccPlayers,Players):-
+mostEfficientPlayer(Game,MaxEfficiency,AccPlayers,Players):-
   % get a player and calculte his efficiency
   played(Player,Game,Hours,Percentage),
   Efficiency is Percentage / Hours,
-  \+member(Player-Efficiency,AccPlayers),
+  \+member(Player-Efficiency,AccPlayers), 
 
   % recalculate efficiency and remove those who are less efficient
-  Efficiency >= MaxEfficiency,
+  Efficiency >= MaxEfficiency, !,
   NewMaxEfficiency is Efficiency,
-  removeLessEfficient(NewMaxEfficiency,AccPlayers,NewAccPlayers),
+  removeLessEfficient(NewMaxEfficiency,AccPlayers,NewAccPlayers), !,
 
   % continue for the rest of the players
-  mostEffectivePlayers(Game,NewMaxEfficiency,[Player-Efficiency|NewAccPlayers],Players).
-mostEffectivePlayers(_,_,Players,Players).
+  mostEfficientPlayer(Game,NewMaxEfficiency,[Player-Efficiency|NewAccPlayers],Players).
+mostEfficientPlayer(_,_,Players,Players).
 
 removeLessEfficient(_,[],[]).
 removeLessEfficient(Max,[Name-Efficiency|Players],[Name-Efficiency|Top]):- 
-  Efficiency >= Max,
+  Efficiency >= Max, !,
   removeLessEfficient(Max,Players,Top).
-removeLessEfficient(_,_,_):- removeLessEfficient(_,_,_).
+removeLessEfficient(Max,Players,Top):- 
+  removeLessEfficient(Max,Players,Top).
 
 % 10
+% se Nick estiver instanciado, o predicado verifica se existe algum jogo que o player com Nick possa jogar
+% se Nick não estiver instanciado, o predicado verifica se existe algum jogo que o primeiro player na base de conhecimento possa jogar
+% devido ao cut, no caso de Nick não estar instanciado, o predicado vai retornar no se o primeiro jogador que se tenta não puder jogar nenhum jogo
+% ou seja, trata-se de um cut vermelho dado que a sua presença altera os resultados
+canPlay(Nick):-
+  player(_,Nick,Age), !,
+  \+ (played(Nick,Game,_,_),
+      game(Game,_,MinAge),
+      MinAge > Age).
 
+% 11
