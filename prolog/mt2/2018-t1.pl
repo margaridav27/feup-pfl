@@ -126,4 +126,70 @@ avgFlightDurationFromAirport(Airport,Avg):-
   Avg is Sum / Number.
 
 % 8
+getMaximumNumber(Max):-
+  findall(Number, (
+    company(Company,_,_,_),
+    countries(Company,Countries),
+    length(Countries,Number)
+  ), Numbers),
+  sort(Numbers,Sorted),
+  reverse(Sorted,Descending),
+  nth1(1,Descending,Max).
+
 mostInternation(ListOfCompanies):-
+  getMaximumNumber(Max),
+  findall(Company, (
+    company(Company,_,_,_),
+    countries(Company,Countries),
+    length(Countries,Number),
+    Number == Max
+  ), ListOfCompanies).
+
+
+
+% 9
+difMax2(X,Y):-
+  X < Y,
+  X >= Y - 2.
+
+/* ---- antes (cut vermelho!) ----
+makePairs(L,P,[X-Y|Zs]):-
+  select(X,L,L2),
+  select(Y,L2,L3),
+  G =.. [P,X,Y], G, !
+  makePairs(L3,P,Zs).
+makePairs([],_,[]).
+*/
+
+makePairs1(L,P,[X-Y|Zs]):-
+  select(X,L,L2),
+  select(Y,L2,L3),
+  G =.. [P,X,Y], G,
+  makePairs1(L3,P,Zs).
+makePairs1([],_,[]).
+
+% 10
+makePairs2(L,P,[X-Y|Zs]):-
+  select(X,L,L2),
+  select(Y,L2,L3),
+  G =.. [P,X,Y], G,
+  makePairs2(L3,P,Zs).
+makePairs2(L,P,Zs):-
+  select(_X,L,L2),
+  select(_Y,L2,L3),
+  makePairs2(L3,P,Zs).
+
+% 11
+
+% 12
+/* 
+(1,1)            2 baixo, 1 dir 
+(3,2)  / (2,3)   3 baixo, 2 dir 
+(6,4)  / (4,6)   2 baixo, 1 dir  
+(8,5)  / (5,8)   3 baixo, 2 dir 
+(11,7) / (7,11)  2 baixo, 1 dir
+(13,8) / (8,13)  ...
+
+a cada iteração soma-se ao primeiro par de coordenadas o incremento correspondente
+gerando um novo par de coordenadas para adicionar à lista (e adiciona-se também o simétrico) */
+

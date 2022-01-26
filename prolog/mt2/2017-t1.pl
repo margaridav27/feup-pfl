@@ -130,9 +130,9 @@ removeLessEfficient(Max,Players,Top):-
   removeLessEfficient(Max,Players,Top).
 
 % 10
-% se Nick estiver instanciado, o predicado verifica se existe algum jogo que o player com Nick possa jogar
-% se Nick não estiver instanciado, o predicado verifica se existe algum jogo que o primeiro player na base de conhecimento possa jogar
-% devido ao cut, no caso de Nick não estar instanciado, o predicado vai retornar no se o primeiro jogador que se tenta não puder jogar nenhum jogo
+% se Nick estiver instanciado, verifica se o jogador pode jogar todos os jogos (que joga) / se existe algum jogo que ele não tenha permissão de jogar (que joga)
+% se Nick não estiver instanciado, verifica se o primeiro jogador na base de conhecimentos pode jogar todos os jogos (que joga)
+% devido ao cut, no caso de Nick não estar instanciado, o predicado vai retornar no se o primeiro jogador que se tenta não puder jogar algum jogo
 % ou seja, trata-se de um cut vermelho dado que a sua presença altera os resultados
 canPlay(Nick):-
   player(_,Nick,Age), !,
@@ -140,4 +140,52 @@ canPlay(Nick):-
       game(Game,_,MinAge),
       MinAge > Age).
 
-% 11
+% 12
+:- use_module(library(between)).
+:- use_module(library(lists)).
+
+% linha-coluna
+matDist([[8],[8,2],[7,4,3],[7,4,3,1]]).
+    
+dist(_,E,E,0).
+dist(Matrix,L,C,Dist):-
+  C > L,
+  dist(Matrix,C,L,Dist).
+dist(Matrix,L,C,Dist):-
+  RealL is L - 1, matDist(X),
+  nth1(RealL,X,Row),
+  nth1(C,Row,Dist).
+
+areClose(MaxDist,Matrix,Pairs):-
+  findall(L-C, (between(2,5,L),
+                between(1,4,C),
+                L \= C,
+                dist(Matrix,L,C,D), 
+                D =< MaxDist), 
+          List), 
+  removeSymmetrical(List,Pairs).
+
+removeSymmetrical(List,Pairs):-
+  removeSymmetrical(List,[],Pairs).
+
+removeSymmetrical([],Pairs,Pairs).
+removeSymmetrical([L-C|Rest],Acc,Pairs):-
+  \+member(C-L,Acc),
+  removeSymmetrical(Rest,[L-C|Acc],Pairs).
+removeSymmetrical([_|Rest],Acc,Pairs):-
+  removeSymmetrical(Rest,Acc,Pairs).
+
+% 13
+dendogram([1,[2,[5,[7,[8,australia,[9,[10,stahelena,angulia],georgiadosul]],reinounido],[6,servia,franca]],[3,[4,niger,india],irlanda]],brasil]).
+
+distance(C1,C2,Dendogram,Dist):-
+  lookup(C1,Dendogram,DistC1), !,
+  lookup(C2,Dendogram,DistC2), !,
+  Dist is max(DistC1,DistC2).
+
+lookup(C,[Id,_,C],Id).          % right leef is the element we are looking for
+lookup(C,[Id,C,_],Id).          % left leef is the element we are looking for
+lookup(C,[_,_,[I,E,D]],Dist):-  % continue search for the right subtree
+  lookup(C,[I,E,D],Dist).
+lookup(C,[_,[I,E,D],_],Dist):-  % continue search for the left subtree
+  lookup(C,[I,E,D],Dist).

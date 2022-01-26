@@ -41,6 +41,14 @@ c) aula 11 e aula 12 as 4 pelas 5 pelas 6 pelas 7
 ops - aula, e, as, pelas
 sorted ops - as, e | pelas, aula
 
-** pedir ao tigas ou ao joni **
+           as
+        /     \
+       e      pelas
+     /  \      / \
+   aula aula  4  pelas
+    |    |        / \
+    11   12      5 pelas
+                     /  \
+                    6    7
 
 --------------------------------------------------------------
