@@ -83,6 +83,7 @@ pairableFlights:-
   closeEnough(ArrF1,DepF2),
   format('~s - ~s \\ ~s\n',[D,F1,F2]), 
   fail.
+pairableFlights.
 
 % 6
 :- use_module(library(lists)).
@@ -174,12 +175,7 @@ makePairs2(L,P,[X-Y|Zs]):-
   select(Y,L2,L3),
   G =.. [P,X,Y], G,
   makePairs2(L3,P,Zs).
-makePairs2(L,P,Zs):-
-  select(_X,L,L2),
-  select(_Y,L2,L3),
-  makePairs2(L3,P,Zs).
-
-% 11
+makePairs2(_,_,[]).
 
 % 12
 /* 
