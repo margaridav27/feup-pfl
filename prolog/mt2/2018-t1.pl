@@ -177,7 +177,20 @@ makePairs2(L,P,[X-Y|Zs]):-
   makePairs2(L3,P,Zs).
 makePairs2(_,_,[]).
 
-% 12
+%11
+getMaxPair([], S, _, S).
+getMaxPair([Cur|Next], S, Counter, Temp):-
+  length(Cur, Length),
+  Length > Counter,
+  getMaxPair(Next, S, Length, Cur).
+getMaxPair([Cur|Next], S, Counter, Temp):-
+  getMaxPair(Next, S, Counter, Temp).
+  
+makeMaxPairs(L, P, S):-
+  setof(Res, makePairs(L,P, Res), SS),
+  getMaxPair(SS, S, 0, Temp).
+
+%12
 /* 
 (1,1)            2 baixo, 1 dir 
 (3,2)  / (2,3)   3 baixo, 2 dir 
@@ -189,3 +202,19 @@ makePairs2(_,_,[]).
 a cada iteração soma-se ao primeiro par de coordenadas o incremento correspondente
 gerando um novo par de coordenadas para adicionar à lista (e adiciona-se também o simétrico) */
 
+stateMachine(N, 2-3, [(NewX, NewY), (NewY, NewX)|List], (X,Y)):-
+  NewX is X + 2,
+  NewY is Y + 3,
+  NewX =< N,
+  NewY =< N,
+  stateMachine(N, 1-2, List, (NewX, NewY)).
+stateMachine(N, 1-2, [(NewX, NewY), (NewY, NewX)|List], (X,Y)):-
+  NewX is X + 1,
+  NewY is Y + 2,
+  NewX =< N,
+  NewY =< N,
+  stateMachine(N, 2-3, List, (NewX, NewY)).
+stateMachine(_, _, [], _).
+
+whitoff(N, [(1,1)|W]):-
+  stateMachine(N, 1-2, W, (1,1)).
