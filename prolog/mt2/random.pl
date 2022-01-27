@@ -36,3 +36,22 @@ insert(X, [X1|L1], [X1|L]):- insert(X, L1, L).
 
 iSort([], []):- !.
 iSort([X|L], S):- iSort(L, S1), insert(X, S1, S).
+
+% 4.1) existePadrao(+Str, +Padrao)
+
+existePadrao(Str, Padrao):- stateMachine(Str, Padrao, 1).
+
+stateMachine([], Padrao, Index):- reachEnd(Padrao, Index).
+stateMachine(_, Padrao, Index):- reachEnd(Padrao, Index).
+stateMachine([Char|Str], Padrao, Index):-
+    nth1(Index, Padrao, Trigger),
+    (Trigger == 43; Char == Trigger),
+    NewIndex is Index +1,!,
+    stateMachine(Str, Padrao, NewIndex).
+stateMachine([Char|Str], Padrao, Index):-
+    nth1(1, Padrao, First),
+    (First == Char -> NewIndex = 2; NewIndex = 1),
+    stateMachine(Str, Padrao, NewIndex).
+reachEnd(Padrao, Index):-
+    length(Padrao, Lenght),
+    Index > Lenght.
